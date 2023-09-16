@@ -1,7 +1,9 @@
 package com.bridgelabz;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBookMain {
 
@@ -75,6 +77,8 @@ public class AddressBookMain {
     }
 
     public static void viewByCityOrState(){
+        HashMap<String, List<Contact>> cityDict = new HashMap<>();
+        HashMap<String, List<Contact>> stateDict = new HashMap<>();
         Scanner sc = new Scanner(System.in);
         System.out.println("[ 1.Search_Contact_By_City 2.Search_Contact_By_State 3.BackToMenu ]");
         int searchOption = sc.nextInt();
@@ -85,9 +89,16 @@ public class AddressBookMain {
             System.out.println();
             System.out.println("contacts present in the " + cityName + " city are:");
 
+            //display contact by city name
             dictAddressBook.values().stream()
                     .flatMap(addressBook -> addressBook.getContactByCity(cityName).stream())
                     .forEach(System.out::println);
+
+            //storing it in city dictionary
+            List<Contact> contactsByCity = dictAddressBook.values().stream()
+                    .flatMap(addressBook -> addressBook.getContactByCity(cityName).stream())
+                    .collect(Collectors.toList());
+            cityDict.put(cityName,contactsByCity);
             System.out.println();
 
         } else if(searchOption == 2){
@@ -95,9 +106,17 @@ public class AddressBookMain {
             String stateName = sc.next();
             System.out.println();
             System.out.println("contacts present in the " + stateName + " state are:");
+
+            //display contact by state name
             dictAddressBook.values().stream()
                     .flatMap(addressBook -> addressBook.getContactByState(stateName).stream())
                     .forEach(System.out::println);
+
+            //storing it in state dictionary
+            List<Contact> contactsByState = dictAddressBook.values().stream()
+                    .flatMap(addressBook -> addressBook.getContactByState(stateName).stream())
+                    .collect(Collectors.toList());
+            stateDict.put(stateName,contactsByState);
             System.out.println();
         } else {
             return;
