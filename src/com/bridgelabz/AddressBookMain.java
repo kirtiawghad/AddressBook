@@ -27,16 +27,16 @@ public class AddressBookMain {
         int temp = -1;
         while(temp != 0) {
             String addressBookName = "";
-            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.ViewByCityOrState 99.BackToMain ]");
+            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.ViewByCityOrState 6.CountByCityOrState 99.BackToMain ]");
             System.out.print("Enter your choice:");
             int choice = sc.nextInt();
             if (choice == 99) break;
 
-            if(choice != 5){
+            if(choice != 5 & choice != 6){
                 System.out.print("Enter the name of existing Address Book:");
                 addressBookName = sc.next();
             }
-            if (dictAddressBook.containsKey(addressBookName) | choice == 5) {
+            if (dictAddressBook.containsKey(addressBookName) | choice == 5 | choice == 6) {
                 AddressBook addressBook = dictAddressBook.get(addressBookName);
 
                 switch (choice) {
@@ -54,6 +54,9 @@ public class AddressBookMain {
                         break;
                     case 5:
                         viewByCityOrState();
+                        break;
+                    case 6:
+                        countByCityOrState();
                         break;
                     default:
                         System.out.println(" choose correct option");
@@ -119,6 +122,30 @@ public class AddressBookMain {
             stateDict.put(stateName,contactsByState);
             System.out.println();
         } else {
+            return;
+        }
+    }
+
+    public static void countByCityOrState(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("[ 1.Count_By_City 2.Count_By_State 3.BackToMenu ]");
+        int searchOption = sc.nextInt();
+
+        if(searchOption == 1){
+            System.out.print("Enter the city name to get count:");
+            String cityName = sc.next();
+            long cityCount = dictAddressBook.values().stream()
+                    .flatMap(addressBook -> addressBook.getContactByCity(cityName).stream())
+                    .count();
+            System.out.println("contacts count in this " + cityName + " is: " + cityCount);
+        } else if (searchOption == 2) {
+            System.out.print("Enter the state name to get count:");
+            String stateName = sc.next();
+            long stateCount = dictAddressBook.values().stream()
+                    .flatMap(addressBook -> addressBook.getContactByState(stateName).stream())
+                    .count();
+            System.out.println("contacts count in this " + stateName + " is: " + stateCount);
+        }else {
             return;
         }
     }
