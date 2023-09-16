@@ -28,16 +28,17 @@ public class AddressBookMain {
         int temp = -1;
         while(temp != 0) {
             String addressBookName = "";
-            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.ViewByCityOrState 6.CountByCityOrState 7.SortFields 99.BackToMain ]");
+            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.ViewByCityOrState 6.CountByCityOrState 7.SortFields " +
+                    "8.WriteIntoFile 9.ReadFromFile 99.BackToMain ]");
             System.out.print("Enter your choice:");
             int choice = sc.nextInt();
             if (choice == 99) break;
 
-            if(choice != 5 & choice != 6 & choice != 7){
+            if(choice != 5 & choice != 6 & choice != 7 & choice != 8 & choice != 9){
                 System.out.print("Enter the name of existing Address Book:");
                 addressBookName = sc.next();
             }
-            if (dictAddressBook.containsKey(addressBookName) | choice == 5 | choice == 6 | choice == 7) {
+            if (dictAddressBook.containsKey(addressBookName) | choice == 5 | choice == 6 | choice == 7 | choice == 8 | choice == 9) {
                 AddressBook addressBook = dictAddressBook.get(addressBookName);
 
                 switch (choice) {
@@ -61,6 +62,12 @@ public class AddressBookMain {
                         break;
                     case 7:
                         sortFields();
+                        break;
+                    case 8:
+                        writeDataToFile();
+                        break;
+                    case 9:
+                        readDataFromFile();
                         break;
                     default:
                         System.out.println(" choose correct option");
@@ -206,6 +213,19 @@ public class AddressBookMain {
         }
     }
 
+    public static void writeDataToFile() {
+        for (String addressBook : dictAddressBook.keySet()) {
+            if (dictAddressBook.containsKey(addressBook)) {
+                AddressBook addressBookObject = dictAddressBook.get(addressBook);
+                addressBookObject.writeDataToFileDestination();
+            }
+        }
+    }
+
+    public static void readDataFromFile() {
+        AddressBook addressBookObject = new AddressBook();
+        addressBookObject.readDataFromFileDestination();
+    }
 
     public static void main(String[] args) {
         System.out.println("*** ADDRESS BOOK ***");

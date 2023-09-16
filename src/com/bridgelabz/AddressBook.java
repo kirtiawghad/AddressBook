@@ -9,11 +9,14 @@ public class AddressBook {
     Scanner sc = new Scanner(System.in);
     String addressBookName;
     List<Contact> contactList;
+    static List<Contact> contactListForReadWrite = new ArrayList<>();
 
     public AddressBook(String addressBookName){
         this.addressBookName = addressBookName;
         contactList = new ArrayList<>();
     }
+
+    public AddressBook(){}
 
     public boolean isContactExists(String firstName){
         boolean flag = false;
@@ -171,4 +174,15 @@ public class AddressBook {
         return contactList;
     }
 
+    public void writeDataToFileDestination(){
+        for(int i=0; i<contactList.size(); i++){
+            contactListForReadWrite.add(contactList.get(i));
+        }
+        new AddressBookFileIOServices().write(contactListForReadWrite);
+    }
+
+    public void readDataFromFileDestination(){
+        new AddressBookFileIOServices().printData();
+        System.out.println("Number of contacts stored in File is: " + new AddressBookFileIOServices().countEntries());
+    }
          }
