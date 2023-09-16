@@ -158,4 +158,12 @@ public class AddressBook {
         }
         System.out.println("-------------------------------");
     }
+
+    public List<Contact> getContactByCity(String cityName) {
+        return contactList.stream().filter(contact -> contact.getCity().equals(cityName)).toList();
+    }
+
+    public List<Contact> getContactByState(String stateName) {
+        return contactList.stream().filter(contact -> contact.getState().equals(stateName)).toList();
+    }
    }

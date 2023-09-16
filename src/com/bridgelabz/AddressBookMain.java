@@ -24,14 +24,17 @@ public class AddressBookMain {
 
         int temp = -1;
         while(temp != 0) {
-            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.BackToMain ]");
+            String addressBookName = "";
+            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.ViewByCityOrState 99.BackToMain ]");
             System.out.print("Enter your choice:");
             int choice = sc.nextInt();
-            if (choice == 5) break;
+            if (choice == 99) break;
 
-            System.out.print("Enter the name of existing Address Book:");
-            String addressBookName = sc.next();
-            if (dictAddressBook.containsKey(addressBookName)) {
+            if(choice != 5){
+                System.out.print("Enter the name of existing Address Book:");
+                addressBookName = sc.next();
+            }
+            if (dictAddressBook.containsKey(addressBookName) | choice == 5) {
                 AddressBook addressBook = dictAddressBook.get(addressBookName);
 
                 switch (choice) {
@@ -46,6 +49,9 @@ public class AddressBookMain {
                         break;
                     case 4:
                         addressBook.displayContacts();
+                        break;
+                    case 5:
+                        viewByCityOrState();
                         break;
                     default:
                         System.out.println(" choose correct option");
@@ -66,6 +72,36 @@ public class AddressBookMain {
             System.out.println(addressBookNames);
         }
         System.out.println();
+    }
+
+    public static void viewByCityOrState(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("[ 1.Search_Contact_By_City 2.Search_Contact_By_State 3.BackToMenu ]");
+        int searchOption = sc.nextInt();
+
+        if(searchOption == 1) {
+            System.out.print("Enter the city name:");
+            String cityName = sc.next();
+            System.out.println();
+            System.out.println("contacts present in the " + cityName + " city are:");
+
+            dictAddressBook.values().stream()
+                    .flatMap(addressBook -> addressBook.getContactByCity(cityName).stream())
+                    .forEach(System.out::println);
+            System.out.println();
+
+        } else if(searchOption == 2){
+            System.out.print("Enter the state name:");
+            String stateName = sc.next();
+            System.out.println();
+            System.out.println("contacts present in the " + stateName + " state are:");
+            dictAddressBook.values().stream()
+                    .flatMap(addressBook -> addressBook.getContactByState(stateName).stream())
+                    .forEach(System.out::println);
+            System.out.println();
+        } else {
+            return;
+        }
     }
 
 
