@@ -1,5 +1,6 @@
 package com.bridgelabz;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -27,16 +28,16 @@ public class AddressBookMain {
         int temp = -1;
         while(temp != 0) {
             String addressBookName = "";
-            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.ViewByCityOrState 6.CountByCityOrState 99.BackToMain ]");
+            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.ViewByCityOrState 6.CountByCityOrState 7.SortFields 99.BackToMain ]");
             System.out.print("Enter your choice:");
             int choice = sc.nextInt();
             if (choice == 99) break;
 
-            if(choice != 5 & choice != 6){
+            if(choice != 5 & choice != 6 & choice != 7){
                 System.out.print("Enter the name of existing Address Book:");
                 addressBookName = sc.next();
             }
-            if (dictAddressBook.containsKey(addressBookName) | choice == 5 | choice == 6) {
+            if (dictAddressBook.containsKey(addressBookName) | choice == 5 | choice == 6 | choice == 7) {
                 AddressBook addressBook = dictAddressBook.get(addressBookName);
 
                 switch (choice) {
@@ -57,6 +58,9 @@ public class AddressBookMain {
                         break;
                     case 6:
                         countByCityOrState();
+                        break;
+                    case 7:
+                        sortFields();
                         break;
                     default:
                         System.out.println(" choose correct option");
@@ -148,6 +152,15 @@ public class AddressBookMain {
         }else {
             return;
         }
+    }
+
+    public static void sortFields(){
+        //sort by first name
+        dictAddressBook.values()
+                .stream()
+                .flatMap(person -> person.getContactList().stream())
+                .sorted(Comparator.comparing(Contact::getFirstName))
+                .forEach(System.out::println);
     }
 
 
