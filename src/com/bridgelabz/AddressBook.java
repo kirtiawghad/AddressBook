@@ -15,28 +15,43 @@ public class AddressBook {
         contactList = new ArrayList<>();
     }
 
+    public boolean isContactExists(String firstName){
+        boolean flag = false;
+        for (Contact contact : contactList) {
+            if (firstName.equals(contact.getFirstName())) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
     public void addContact(){
         System.out.println("Enter the Contact Details:");
         System.out.print("Enter the First Name:");
         String firstName = sc.next();
-        System.out.print("Enter the Last Name:");
-        String lastName = sc.next();
-        System.out.print("Enter the Address:");
-        String address = sc.next();
-        System.out.print("Enter the City Name:");
-        String cityName = sc.next();
-        System.out.print("Enter the State Name:");
-        String stateName = sc.next();
-        System.out.print("Enter the Zip Code:");
-        int zipCode = sc.nextInt();
-        System.out.print("Enter the Phone Number:");
-        String phoneNumber = sc.next();
-        System.out.print("Enter the Email ID:");
-        String email = sc.next();
 
-        Contact contact = new Contact(firstName,lastName,address,cityName,stateName,zipCode,phoneNumber,email);
+        if(!isContactExists(firstName)) {
+            System.out.print("Enter the Last Name:");
+            String lastName = sc.next();
+            System.out.print("Enter the Address:");
+            String address = sc.next();
+            System.out.print("Enter the City Name:");
+            String cityName = sc.next();
+            System.out.print("Enter the State Name:");
+            String stateName = sc.next();
+            System.out.print("Enter the Zip Code:");
+            int zipCode = sc.nextInt();
+            System.out.print("Enter the Phone Number:");
+            String phoneNumber = sc.next();
+            System.out.print("Enter the Email ID:");
+            String email = sc.next();
 
-        contactList.add(contact);
+            Contact contact = new Contact(firstName, lastName, address, cityName, stateName, zipCode, phoneNumber, email);
+
+            contactList.add(contact);
+        }else{
+            System.out.println(firstName + " Already exists in this address book");
+        }
     }
 
     public void editContact(){
@@ -143,5 +158,4 @@ public class AddressBook {
         }
         System.out.println("-------------------------------");
     }
-
    }

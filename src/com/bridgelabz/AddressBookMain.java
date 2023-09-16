@@ -24,7 +24,7 @@ public class AddressBookMain {
 
         int temp = -1;
         while(temp != 0) {
-            System.out.println("1.addContact 2.editContact 3.delete 4.displayContact 5.backtomain");
+            System.out.println("[ 1.AddContact 2.EditContact 3.DeleteContact 4.DisplayContact 5.BackToMain ]");
             System.out.print("Enter your choice:");
             int choice = sc.nextInt();
             if (choice == 5) break;
