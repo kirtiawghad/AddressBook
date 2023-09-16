@@ -155,12 +155,55 @@ public class AddressBookMain {
     }
 
     public static void sortFields(){
-        //sort by first name
-        dictAddressBook.values()
-                .stream()
-                .flatMap(person -> person.getContactList().stream())
-                .sorted(Comparator.comparing(Contact::getFirstName))
-                .forEach(System.out::println);
+        Scanner sc = new Scanner(System.in);
+
+        int temp = -1;
+        while(temp != 0) {
+            System.out.println("[ 1.SortBy_Name 2.SortBy_City 3.SortBy_State 4.SortBy_ZipCode 5.BackToMenu ]");
+            int sortOption = sc.nextInt();
+
+            switch (sortOption) {
+                case 1:
+                    //sort by first name
+                    dictAddressBook.values()
+                            .stream()
+                            .flatMap(person -> person.getContactList().stream())
+                            .sorted(Comparator.comparing(Contact::getFirstName))
+                            .forEach(System.out::println);
+                    break;
+                case 2:
+                    //sort by city name
+                    dictAddressBook.values()
+                            .stream()
+                            .flatMap(person -> person.getContactList().stream())
+                            .sorted(Comparator.comparing(Contact::getCity))
+                            .forEach(System.out::println);
+                    break;
+                case 3:
+                    //sort by state name
+                    dictAddressBook.values()
+                            .stream()
+                            .flatMap(person -> person.getContactList().stream())
+                            .sorted(Comparator.comparing(Contact::getState))
+                            .forEach(System.out::println);
+                    break;
+                case 4:
+                    //sort by zip code
+                    dictAddressBook.values()
+                            .stream()
+                            .flatMap(person -> person.getContactList().stream())
+                            .sorted(Comparator.comparing(Contact::getZip))
+                            .forEach(System.out::println);
+                    break;
+                case 5:
+                    //exit from loop
+                    temp = 0;
+                    break;
+                default:
+                    System.out.println("!! choose correct sort option !!");
+                    break;
+            }
+        }
     }
 
 
